@@ -31,3 +31,7 @@ C:\Study\Net8-practice\api\obj\Debug\net10.0\refint\api.dll
 C:\Study\Net8-practice\api\obj\Debug\net10.0\api.pdb
 C:\Study\Net8-practice\api\obj\Debug\net10.0\api.genruntimeconfig.cache
 C:\Study\Net8-practice\api\obj\Debug\net10.0\ref\api.dll
+C:\Study\Net8-practice\api\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Study\Net8-practice\api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Study\Net8-practice\api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Study\Net8-practice\api\obj\Debug\net10.0\api.sourcelink.json
