@@ -50,5 +50,25 @@ namespace api.Controllers
             var comment = await _commentRepository.CreateCommentAsync(commentDto.ToCommentFromRequest(stockid));
             return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, comment.ToCommentDto());
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateComment([FromRoute] int id, [FromBody] CommentUpdateDto commentDto)
+        {
+            var comment = await _commentRepository.UpdateCommentAsync(id, commentDto.ToCommentFromUpdateRequest());
+            if (comment == null)
+            {
+                return NotFound("Comment not found.");
+            }
+            return Ok(comment.ToCommentDto());
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteComment([FromRoute] int id)
+        {
+            var comment = await _commentRepository.DeleteCommentAsync(id);;
+            if (comment == null)
+            {
+                return NotFound("Comment not found.");
+            }
+            return Ok("Comment deleted successfully.");
+        }
     }
 }
