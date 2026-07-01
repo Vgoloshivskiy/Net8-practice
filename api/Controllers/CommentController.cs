@@ -26,11 +26,15 @@ namespace api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllComments()
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var comments = await _commentRepository.GetAllCommentsAsync();
             return Ok(comments.Select(comment => comment.ToCommentDto()).ToList());
         }
         
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetCommentById([FromRoute] int id)
         {
             var comment = await _commentRepository.GetCommentByIdAsync(id);
@@ -40,7 +44,7 @@ namespace api.Controllers
             }
             return Ok(comment.ToCommentDto());
         }
-        [HttpPost("{stockid}")]
+        [HttpPost("{stockid:int}")]
         public async Task<IActionResult> CreateComment([FromRoute] int stockid, [FromBody] CommentCreateDto commentDto)
         {
             if(!await _stockRepository.StockExistsAsync(stockid))
@@ -50,7 +54,7 @@ namespace api.Controllers
             var comment = await _commentRepository.CreateCommentAsync(commentDto.ToCommentFromRequest(stockid));
             return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, comment.ToCommentDto());
         }
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateComment([FromRoute] int id, [FromBody] CommentUpdateDto commentDto)
         {
             var comment = await _commentRepository.UpdateCommentAsync(id, commentDto.ToCommentFromUpdateRequest());
@@ -60,10 +64,10 @@ namespace api.Controllers
             }
             return Ok(comment.ToCommentDto());
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteComment([FromRoute] int id)
         {
-            var comment = await _commentRepository.DeleteCommentAsync(id);;
+            var comment = await _commentRepository.DeleteCommentAsync(id);
             if (comment == null)
             {
                 return NotFound("Comment not found.");
