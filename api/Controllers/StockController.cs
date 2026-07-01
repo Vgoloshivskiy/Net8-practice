@@ -9,6 +9,7 @@ using api.Repository;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using api.Helpers;
 
 namespace api.Controllers
 {
@@ -24,9 +25,13 @@ namespace api.Controllers
                 _context = context;
             }
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
-            var stocks = await _stockRepository.GetAllStocksAsync();
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var stocks = await _stockRepository.GetAllStocksAsync(query);
             var stockDtos = stocks.Select(stock => stock.ToStockDto()).ToList();
             return Ok(stockDtos);
         }
